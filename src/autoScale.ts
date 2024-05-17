@@ -9,7 +9,7 @@ const autoScale = ({
   dw: number;
   dh?: number;
 }) => {
-  const scale = Math.min(window.innerWidth / dw, window.innerHeight / dh);
+  const scale = window.innerWidth / dw;
   let meta = document.querySelector("meta[name=viewport]") as HTMLMetaElement;
   if (!meta) {
     const meta = document.createElement("meta");
@@ -18,7 +18,7 @@ const autoScale = ({
   }
   meta.setAttribute(
     "content",
-    `width=${dw}, initial-scale=${scale}, user-scalable=no`
+    `width=${window.innerWidth}, initial-scale=${scale}, user-scalable=no`
   );
 };
 

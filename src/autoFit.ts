@@ -1,4 +1,5 @@
 import { isMobile } from "./utils";
+type FitType = "viewport" | "rem";
 const autoFit = ({
   dw,
   dh = 100,
@@ -6,7 +7,7 @@ const autoFit = ({
 }: {
   dw: number;
   dh?: number;
-  fitType?: "viewport" | "rem";
+  fitType?: FitType;
 }) => {
   if (isMobile()) {
     resetViewport();
