@@ -1,16 +1,29 @@
-const autoFit = () => {
+import { isMobile } from "./utils";
+const autoFit = ({
+  dw,
+  dh = 100,
+  fitType = "viewport",
+}: {
+  dw: number;
+  dh?: number;
+  fitType?: "viewport" | "rem";
+}) => {
   if (isMobile()) {
     resetViewport();
   }
-  if (supportViewport()) {
-    //viewport
+  if (fitType === "viewport") {
+    injectCssVar({
+      vw: `${100 / dw}vw`,
+      vh: `${100 / dh}vh`,
+    });
   } else {
-    //rem
+    toRem();
+    injectCssVar({
+      rem: `${dw / 10}rem`,
+    });
+    window.addEventListener("resize", toRem);
   }
 };
-
-const isMobile = () =>
-  /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
 
 const resetViewport = () => {
   document.querySelector('meta[name="viewport"]')?.remove();
@@ -21,6 +34,21 @@ const resetViewport = () => {
   document.head.appendChild(meta);
 };
 
-const supportViewport = () => CSS.supports("width", "100vw");
+const toRem = () => {
+  const root = document.documentElement;
+  const scale = root.clientWidth / 10;
+  root.style.fontSize = scale + "px";
+};
+
+const injectCssVar = (vars: Record<string, any> = {}) => {
+  const styleContent = Object.entries(vars)
+    .map(([key, val]) => `--${key}: ${val};`)
+    .join("\n");
+  if (styleContent) {
+    const style = document.createElement("style");
+    style.innerHTML = styleContent;
+    document.head.appendChild(style);
+  }
+};
 
 export { autoFit };
