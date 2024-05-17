@@ -47,7 +47,9 @@ const injectCssVar = (vars: Record<string, any> = {}) => {
     .join("\n");
   if (styleContent) {
     const style = document.createElement("style");
-    style.innerHTML = styleContent;
+    style.innerHTML = `:root {
+      ${styleContent}
+    }`;
     document.head.appendChild(style);
   }
 };
