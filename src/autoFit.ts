@@ -14,8 +14,8 @@ const autoFit = ({
   }
   if (fitType === "viewport") {
     injectCssVar({
-      vw: `${100 / dw}vw`,
-      vh: `${100 / dh}vh`,
+      pxw: `${100 / dw}vw`,
+      pxh: `${100 / dh}vh`,
     });
   } else {
     toRem();
